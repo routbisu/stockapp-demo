@@ -5,7 +5,7 @@ const stocksReducer = (state = { peers: [] }, action) => {
     case SEARCH_PEERS:
       return {
         ...state,
-        peers: action.data,
+        peers: action.payload,
       };
 
     default:

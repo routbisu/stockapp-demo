@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchPeers } from '../actions';
+import StockCard from '../components/StockCard';
 
 const PeerSearchPage = () => {
   const peers = useSelector(state => state.stockState.peers);
@@ -47,15 +48,7 @@ const PeerSearchPage = () => {
       <Row>
         {peers.map((peer, i) => (
           <Col sm={4} xs={12} key={i}>
-            <Card className="flex-row">
-              <CardBody>
-                <CardTitle>{peer}</CardTitle>
-                <CardText>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </CardText>
-              </CardBody>
-            </Card>
+            <StockCard symbol={peer} />
           </Col>
         ))}
       </Row>
