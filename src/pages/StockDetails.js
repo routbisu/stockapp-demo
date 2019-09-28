@@ -10,6 +10,14 @@ const StockDetails = props => {
   const companyDetails = useSelector(state => state.stockState.companyDetails);
   const chartData = useSelector(state => state.stockState.chart);
   const [duration, setDuration] = useState('1m');
+  const [chartOptions, setChartOptions] = useState({
+    open: true,
+    close: true,
+    high: false,
+    low: false,
+    volume: false,
+    change: false,
+  });
 
   const dispatch = useDispatch();
 
@@ -26,6 +34,22 @@ const StockDetails = props => {
     const stockQuote = props.match.params.quote;
     dispatch(showChart(stockQuote, duration));
     setDuration(duration);
+  };
+
+  const allStyles = {
+    spanStyle: {
+      color: 'grey',
+      fontSize: 12,
+      fontWeight: 600,
+      margin: '0px 8px',
+      textTransform: 'capitalize',
+    },
+  };
+
+  const checkboxHandler = opt => {
+    const chrtOpts = { ...chartOptions };
+    chrtOpts[opt] = !chrtOpts[opt];
+    setChartOptions(chrtOpts);
   };
 
   return (
@@ -56,7 +80,26 @@ const StockDetails = props => {
         </Col>
       </Row>
 
-      {chartData.length ? <StockLineChart data={chartData} /> : null}
+      {chartData.length ? (
+        <>
+          <div style={{ float: 'right' }}>
+            {Object.keys(chartOptions).map((opt, i) => (
+              <span key={i}>
+                <input
+                  type="checkbox"
+                  checked={chartOptions[opt]}
+                  onChange={() => checkboxHandler(opt)}
+                />
+                <span style={allStyles.spanStyle}>{opt}</span>
+              </span>
+            ))}
+          </div>
+          <StockLineChart
+            data={chartData}
+            params={Object.keys(chartOptions).filter(opt => chartOptions[opt])}
+          />
+        </>
+      ) : null}
 
       <Card>
         {chartData && chartData.length && (

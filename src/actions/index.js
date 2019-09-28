@@ -39,7 +39,7 @@ export const showChart = (quote, duration) => dispatch => {
   getChart(quote, duration).then(result => {
     dispatch({
       type: SHOW_COMPANY_CHART,
-      payload: result.data,
+      payload: [...result.data],
     });
   });
 };
